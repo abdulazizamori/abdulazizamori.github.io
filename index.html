@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="personal_portfolio">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="myLogo.png"/>
+
+  <title>Personal Portfolio</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Ensure the body covers the entire viewport */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #121212; /* Background color */
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Splash screen container */
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #121212;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    /* Hide the Flutter app initially */
+    #flutter-app {
+      display: none;
+    }
+
+    /* Fade-out animation for splash screen */
+    .hidden {
+      animation: fadeOut 1s forwards;
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Splash screen -->
+  <div id="splash-screen">
+    <img src="loading.gif" alt="Loading..." />
+  </div>
+
+  <!-- Flutter app -->
+  <script src="flutter_bootstrap.js" async></script>
+  <div id="flutter-app"></div>
+
+  <script>
+    // Wait for Flutter to load and enforce a minimum splash screen duration
+    const MIN_SPLASH_DURATION = 2000; // 2 seconds
+    const splashScreen = document.getElementById("splash-screen");
+    const flutterApp = document.getElementById("flutter-app");
+    const startTime = Date.now();
+
+    window.addEventListener("load", () => {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, MIN_SPLASH_DURATION - elapsedTime);
+
+      // Ensure the splash screen stays visible for at least the minimum duration
+      setTimeout(() => {
+        splashScreen.classList.add("hidden"); // Fade out the splash screen
+        if (flutterApp) flutterApp.style.display = "block"; // Show the Flutter app
+      }, remainingTime);
+    });
+  </script>
+</body>
+</html>
